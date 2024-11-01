@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema id="org.gnome.shell.extensions.todoit" path="/org/gnome/shell/extensions/todoit/">
+    <key name="todos" type="as">
+      <default>[]</default>
+      <summary>List of todos</summary>
+    </key>
+  </schema>
+</schemalist>

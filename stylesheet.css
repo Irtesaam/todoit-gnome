@@ -1,10 +1,4 @@
-.newTaskSection {
-  padding: 0 12px;
-}
-
-/* Same style as #searchEntry on theme/gnome-shell.css */
-
-#newTaskEntry {
+/* #newTaskEntry {
   padding: 7px 9px;
   border-radius: 6px;
   color: #ccc;
@@ -27,4 +21,4 @@
 #newTaskEntry:focus {
   font-weight: 600;
   transition-duration: 0;
-}
+} */
