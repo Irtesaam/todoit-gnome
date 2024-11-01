@@ -1,0 +1,30 @@
+.newTaskSection {
+  padding: 0 12px;
+}
+
+/* Same style as #searchEntry on theme/gnome-shell.css */
+
+#newTaskEntry {
+  padding: 7px 9px;
+  border-radius: 6px;
+  color: #ccc;
+  border: 2px solid #555;
+  caret-color: red;
+  width: 320px;
+  transition-duration: 300;
+  box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+#newTaskEntry:focus,
+#newTaskEntry:hover {
+  border-width: 2px;
+}
+
+#newTaskEntry:hover {
+  transition-duration: 300;
+}
+
+#newTaskEntry:focus {
+  font-weight: 600;
+  transition-duration: 0;
+}
