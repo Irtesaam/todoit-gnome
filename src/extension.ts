@@ -11,8 +11,8 @@ import {
 import * as PanelMenu from "resource:///org/gnome/shell/ui/panelMenu.js";
 import * as PopupMenu from "resource:///org/gnome/shell/ui/popupMenu.js";
 import * as Main from "resource:///org/gnome/shell/ui/main.js";
-import { TodoListManager } from "./manager";
-import { isEmpty } from "./utils";
+import { TodoListManager } from "./manager.js";
+import { isEmpty } from "./utils.js";
 
 const MAX_WINDOW_WIDTH = 500;
 
@@ -45,7 +45,7 @@ const Indicator = GObject.registerClass(
         y_align: Clutter.ActorAlign.CENTER,
       });
       this.buttonText.set_style("text-align:center;");
-      this.add_child(this.buttonText);
+      this.menu.actor.add_child(this.buttonText);
       // this.actor.add_child(this.buttonText);
 
       this._buildUI();
@@ -103,7 +103,7 @@ const Indicator = GObject.registerClass(
       bottomSection.actor.add_child(this.input);
       bottomSection.actor.add_style_class_name("newTaskSection");
       this.mainBox.add_child(bottomSection.actor);
-      this.menu.actor.add_child(this.mainBox)
+      this.menu.actor.add_child(this.mainBox);
       // this.menu.box.add_child(this.mainBox);
     }
 
@@ -131,7 +131,7 @@ const Indicator = GObject.registerClass(
       }
     }
 
-    _addTask(task, index) {
+    _addTask(task: string, index: number) {
       this._manager.add(task);
       if (this._isTodosEmpty) {
         this.todosBox.destroy_all_children();
@@ -141,7 +141,7 @@ const Indicator = GObject.registerClass(
       this._addTodoItem(newTask, index);
     }
 
-    _addTodoItem(task, index) {
+    _addTodoItem(task: any, index: number) {
       // Create a new PopupMenuItem for the task
       let item = new PopupMenu.PopupMenuItem("");
       item.style_class = "item";
@@ -231,13 +231,15 @@ const Indicator = GObject.registerClass(
 );
 
 export default class TodoListExtension extends Extension {
+  _indicator?: PanelMenu.Button | null
+
   enable() {
-    this._indicator = new Indicator();
+    this._indicator = new Indicator(0.0, _("Todo list"));
     Main.panel.addToStatusArea(this.uuid, this._indicator);
   }
 
   disable() {
-    this._indicator.destroy();
+    this._indicator?.destroy();
     this._indicator = null;
   }
 }

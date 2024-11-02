@@ -2,12 +2,14 @@
   "compilerOptions": {
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "outDir": "./dist",
+    "outDir": "./",
     "sourceMap": false,
     "strict": true,
     "target": "ES2022",
-    "lib": ["ES2022"]
+    "lib": ["ES2022"],
+    "skipLibCheck": true
   },
+  "exclude": ["node_modules/@girs/**"],
   "include": ["src/ambient.d.ts"],
-  "files": ["src/extension.ts", "src/prefs.ts"]
+  "files": ["src/extension.ts", "src/manager.ts", "src/utils.ts"]
 }

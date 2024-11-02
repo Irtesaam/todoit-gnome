@@ -1,12 +1,15 @@
 import { Extension } from "resource:///org/gnome/shell/extensions/extension.js";
 import { isEmpty } from "./utils.js";
+import Gio from "gi://Gio";
 
 const TODOS = "todos";
 
 export class TodoListManager {
+  GSettings: Gio.Settings;
+
   constructor() {
     const extensionObject = Extension.lookupByUUID("todoit@wassimbj.github.io");
-    this.GSettings = extensionObject.getSettings();
+    this.GSettings = extensionObject!.getSettings();
   }
 
   get() {
@@ -14,13 +17,13 @@ export class TodoListManager {
     return this.GSettings.get_strv(TODOS);
   }
 
-  add(task) {
+  add(task: string) {
     let todos = this.get();
     todos.push(JSON.stringify({ name: task, isDone: false }));
     this.GSettings.set_strv(TODOS, todos);
   }
 
-  remove(index) {
+  remove(index: number) {
     let todos = this.get();
     if (isEmpty(todos)) {
       return;
@@ -29,7 +32,7 @@ export class TodoListManager {
     this.GSettings.set_strv(TODOS, todos);
   }
 
-  update(index, todo) {
+  update(index: number, todo: Task) {
     let todos = this.get();
     if (isEmpty(todos)) {
       return;
@@ -37,4 +40,9 @@ export class TodoListManager {
     todos[index] = JSON.stringify(todo, null, 2);
     this.GSettings.set_strv(TODOS, todos);
   }
+}
+
+interface Task {
+  name: string;
+  isDone: boolean
 }

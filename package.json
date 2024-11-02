@@ -4,8 +4,12 @@
   "description": "A simple gnome todo list extension",
   "main": "extension.js",
   "repository": "git@github.com:wassimbj/todoit-gnome.git",
+  "type": "module",
   "author": "wassimbj <wassimbenjdida@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "build": "tsc"
+  },
   "devDependencies": {
     "typescript": "^5.6.3"
   },
