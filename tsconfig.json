@@ -9,7 +9,7 @@
     "lib": ["ES2022"],
     "skipLibCheck": true
   },
-  "exclude": ["node_modules/@girs/**"],
+  "exclude": ["node_modules"],
   "include": ["src/ambient.d.ts"],
   "files": ["src/extension.ts", "src/manager.ts", "src/utils.ts"]
 }

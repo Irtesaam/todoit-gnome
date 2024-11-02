@@ -18,16 +18,16 @@ const MAX_WINDOW_WIDTH = 500;
 
 const Indicator = GObject.registerClass(
   class Indicator extends PanelMenu.Button {
-    _manager!: TodoListManager;
+    _manager: TodoListManager = new TodoListManager();
     _isTodosEmpty: boolean = false;
     mainBox?: St.BoxLayout;
     todosBox!: St.BoxLayout;
     buttonText!: St.Label;
-    input!: St.Entry;
+    input?: St.Entry;
 
     _init() {
-      this._manager = new TodoListManager();
       super._init(0.0, _("Todo list"));
+      // this._manager = new TodoListManager();
       // we use this state var, to destroy the current todos box children and not append to it, because if it's empty a message will be displayed
       this._isTodosEmpty = true;
 
@@ -87,13 +87,17 @@ const Indicator = GObject.registerClass(
         track_hover: true,
         can_focus: true,
       });
+      this.input.clutterText.connect('activate', (s) => {
+        console.log(s.get_text())
+      })
       // this.input.set_style("max-width: ${MAX_WINDOW_WIDTH};");
-      this.input.clutter_text.connect("activate", () => {
-        let taskText = this.input.get_text().trim();
+      this.input.clutterText.connect("activate", (source) => {
+        let taskText = source.get_text().trim();
+        console.log(taskText)
         if (taskText) {
           let todosLength = this._manager.get().length;
           this._addTask(taskText, todosLength);
-          this.input.set_text(""); // Clear the input
+          source.set_text("")
         }
       });
       this.input.clutter_text.set_max_length(200);
@@ -103,8 +107,7 @@ const Indicator = GObject.registerClass(
       bottomSection.actor.add_child(this.input);
       bottomSection.actor.add_style_class_name("newTaskSection");
       this.mainBox.add_child(bottomSection.actor);
-      this.menu.actor.add_child(this.mainBox);
-      // this.menu.box.add_child(this.mainBox);
+      (this.menu as any).box.add_child(this.mainBox)
     }
 
     _populate() {
@@ -231,7 +234,7 @@ const Indicator = GObject.registerClass(
 );
 
 export default class TodoListExtension extends Extension {
-  _indicator?: PanelMenu.Button | null
+  _indicator?: PanelMenu.Button | null;
 
   enable() {
     this._indicator = new Indicator(0.0, _("Todo list"));
