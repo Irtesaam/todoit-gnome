@@ -45,7 +45,7 @@ const Indicator = GObject.registerClass(
         y_align: Clutter.ActorAlign.CENTER,
       });
       this.buttonText.set_style("text-align:center;");
-      this.menu.actor.add_child(this.buttonText);
+      this.add_child(this.buttonText);
       // this.actor.add_child(this.buttonText);
 
       this._buildUI();

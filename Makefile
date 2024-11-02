@@ -13,6 +13,6 @@ build:
 	yarn build
 
 clean_build:
-	rm *.js
+	rm *.js -f
 
 build_run: clean_build build start
