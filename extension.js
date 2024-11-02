@@ -90,6 +90,7 @@ const Indicator = GObject.registerClass(
 
     _populate() {
       const todos = this._manager.get();
+      console.log("todos: ", todos)
       if (isEmpty(todos)) {
         let item = new St.Label({
           text: _("✅ Nothing to do for now"),

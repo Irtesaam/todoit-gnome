@@ -1,33 +1,31 @@
-import Gio from "gi://Gio";
-import GLib from "gi://GLib";
-import { getGSettings } from "./utils.js";
+import { Extension } from "resource:///org/gnome/shell/extensions/extension.js";
+import { isEmpty } from "./utils.js";
 
-// /home/wassimbj/snap/code/173/.local/share/glib-2.0/schemas
 const TODOS = "todos";
 
 export class TodoListManager {
   constructor() {
-    // this.settings = new Gio.Settings({ schema_id: TODO_SCHEMA,  });
-    // if (!this.settings) {
-    //   throw new Error("failed to init Gio.Settings");
-    // }
-
-    this.settings = getGSettings()
+    const extensionObject = Extension.lookupByUUID('todoit@wassimbj.github.io');
+    this.GSettings = extensionObject.getSettings()
   }
 
   get() {
-    return this.settings.get_strv(TODOS); // retrieves todos as an array of strings
+    // retrieves todos as an array of strings
+    return this.GSettings.get_strv(TODOS);
   }
 
   add(todo) {
-    let todos = this.getTodos();
+    let todos = this.get();
     todos.push(todo);
-    this.settings.set_strv(TODOS, todos); // saves updated list
+    this.GSettings.set_strv(TODOS, todos);
   }
 
   remove(index) {
-    let todos = this.getTodos();
+    let todos = this.get();
+    if (isEmpty(todos)) {
+      return;
+    }
     todos.splice(index, 1);
-    this.settings.set_strv(TODOS, todos); // saves updated list
+    this.GSettings.set_strv(TODOS, todos);
   }
 }

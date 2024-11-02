@@ -1,5 +1,3 @@
-import Gio from "gi://Gio";
-import GLib from "gi://GLib";
 
 export function isEmpty(data) {
   if (Array.isArray(data)) {
@@ -9,31 +7,34 @@ export function isEmpty(data) {
   return !data;
 }
 
-export function getGSettings() {
-  // const Extension = extensionUtils.getCurrentExtension();
-  // Get the directory where the extension's schemas are located
-  const dir = `${GLib.get_home_dir()}/.local/share/gnome-shell/extensions/todoit@wassimbj.github.io`
-  const schemaDir = GLib.build_filenamev([dir, "schemas"]);
+// export function getGSettings() {
+//   // Getting the extension object by UUID
+//   const extensionObject = Extension.lookupByUUID('todoit@wassimbj.github.io');
+//   const extensionSettings = extensionObject.getSettings();
+//   return extensionSettings
 
-  // Create a schema source from the directory
-  let source = Gio.SettingsSchemaSource.new_from_directory(
-    schemaDir,
-    Gio.SettingsSchemaSource.get_default(),
-    false
-  );
+//   // // Get the directory where the extension's schemas are located
+//   // const extensionDir = `${GLib.get_home_dir()}/.local/share/gnome-shell/extensions/todoit@wassimbj.github.io`;
+//   // const schemaDir = GLib.build_filenamev([extensionDir, "schemas"]);
 
-  if (!source) {
-    throw new Error("Error initializing the schema source.");
-  }
+//   // // Create a schema source from the directory
+//   // let source = Gio.SettingsSchemaSource.new_from_directory(
+//   //   schemaDir,
+//   //   Gio.SettingsSchemaSource.get_default(),
+//   //   false
+//   // );
 
-  // Lookup the schema using the correct schema ID
-  let schema = source.lookup("org.gnome.shell.extensions.todoit", false);
+//   // if (!source) {
+//   //   throw new Error("Error initializing the schema source.");
+//   // }
 
-  if (!schema) {
-    throw new Error("Schema missing.");
-  }
+//   // // Lookup the schema using the correct schema ID
+//   // let schema = source.lookup("org.gnome.shell.extensions.todoit", false);
 
-  // Return the settings object using the schema
-  console.log(schema)
-  return new Gio.Settings({ settings_schema: schema });
-}
+//   // if (!schema) {
+//   //   throw new Error("Schema missing.");
+//   // }
+
+//   // // Return the settings object using the schema
+//   // return new Gio.Settings({ settings_schema: schema });
+// }
