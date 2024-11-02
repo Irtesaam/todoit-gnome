@@ -1,24 +1,70 @@
-/* #newTaskEntry {
-  padding: 7px 9px;
-  border-radius: 6px;
-  color: #ccc;
-  border: 2px solid #555;
-  caret-color: red;
-  width: 320px;
-  transition-duration: 300;
-  box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.6);
+.remove-icon {
+  width: 15px;
+  height: 15px;
+  color: red;
 }
 
-#newTaskEntry:focus,
-#newTaskEntry:hover {
-  border-width: 2px;
+.remove-btn {
+  padding: 10px;
+  border-radius: 50px;
+  width: 0;
 }
 
-#newTaskEntry:hover {
-  transition-duration: 300;
+.remove-btn:hover {
+  background: rgba(255, 20, 20, 0.3);
 }
 
-#newTaskEntry:focus {
-  font-weight: 600;
-  transition-duration: 0;
-} */
+.remove-btn:active {
+  background: rgba(255, 20, 20, 0.5);
+}
+
+.copy-icon {
+  width: 15px;
+  height: 15px;
+}
+
+.copy-btn {
+  padding: 10px;
+  border-radius: 50px;
+  width: 0;
+}
+
+.copy-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.copy-btn:active {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.item {
+  padding: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.item:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.item:hover .copy-btn,
+.item:hover .remove-btn {
+  width: auto;
+}
+
+.task-label {
+  padding: 10px;
+}
+
+.toggle-completion-btn {
+  border-radius: 7px;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #ccc;
+}
+.toggle-completion-btn:hover {
+  background-color: #4c4c4c;
+}
+.toggle-completion-btn:active {
+  background-color: #06742e;
+}
