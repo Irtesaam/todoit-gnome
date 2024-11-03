@@ -18,7 +18,7 @@ const MAX_WINDOW_WIDTH = 500;
 
 const Indicator = GObject.registerClass(
   class Indicator extends PanelMenu.Button {
-    _manager: TodoListManager = new TodoListManager();
+    _manager!: TodoListManager;
     _isTodosEmpty: boolean = false;
     mainBox?: St.BoxLayout;
     todosBox!: St.BoxLayout;
@@ -27,7 +27,13 @@ const Indicator = GObject.registerClass(
 
     _init() {
       super._init(0.0, _("Todo list"));
-      // this._manager = new TodoListManager();
+      this._manager = new TodoListManager();
+      console.log("###############################################");
+      console.log(
+        "IS UNDEFINED [this._manager]: ",
+        this._manager === undefined
+      );
+      console.log("###############################################");
       // we use this state var, to destroy the current todos box children and not append to it, because if it's empty a message will be displayed
       this._isTodosEmpty = true;
 
@@ -60,7 +66,6 @@ const Indicator = GObject.registerClass(
 
       // Create main box
       this.mainBox = new St.BoxLayout({ vertical: true });
-      log(this.mainBox);
 
       // Create todos box
       this.todosBox = new St.BoxLayout({ vertical: true });
@@ -87,17 +92,21 @@ const Indicator = GObject.registerClass(
         track_hover: true,
         can_focus: true,
       });
-      this.input.clutterText.connect('activate', (s) => {
-        console.log(s.get_text())
-      })
+      // this.input.clutterText.connect("activate", (s) => {
+      //   console.log(s.get_text());
+      // });
       // this.input.set_style("max-width: ${MAX_WINDOW_WIDTH};");
+      console.log("UNDEFINED ?", this._manager === undefined);
+      let todosLength = this._manager.get().length;
+      console.log("UNDEFINED ?", this._manager === undefined);
+      var _manager = this._manager
       this.input.clutterText.connect("activate", (source) => {
+        console.log("...UNDEFINED ?", _manager === undefined);
         let taskText = source.get_text().trim();
-        console.log(taskText)
+        console.log(taskText);
         if (taskText) {
-          let todosLength = this._manager.get().length;
           this._addTask(taskText, todosLength);
-          source.set_text("")
+          source.set_text("");
         }
       });
       this.input.clutter_text.set_max_length(200);
@@ -107,7 +116,9 @@ const Indicator = GObject.registerClass(
       bottomSection.actor.add_child(this.input);
       bottomSection.actor.add_style_class_name("newTaskSection");
       this.mainBox.add_child(bottomSection.actor);
-      (this.menu as any).box.add_child(this.mainBox)
+      (this.menu as any).box.add_child(this.mainBox);
+      console.log("UNDEFINED ?", this._manager === undefined);
+
     }
 
     _populate() {
@@ -135,6 +146,7 @@ const Indicator = GObject.registerClass(
     }
 
     _addTask(task: string, index: number) {
+      console.log("UNDEFINED ?", this._manager === undefined);
       this._manager.add(task);
       if (this._isTodosEmpty) {
         this.todosBox.destroy_all_children();
