@@ -5,8 +5,8 @@
     "outDir": "./",
     "sourceMap": false,
     "strict": true,
-    "target": "ES2022",
-    "lib": ["ES2022"],
+    "target": "ES2023",
+    "lib": ["ES2023"],
     "skipLibCheck": true
   },
   "exclude": ["node_modules"],

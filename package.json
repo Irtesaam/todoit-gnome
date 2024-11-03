@@ -11,6 +11,8 @@
     "build": "tsc"
   },
   "devDependencies": {
+    "eslint": "^9.14.0",
+    "eslint-plugin-jsdoc": "^50.4.3",
     "typescript": "^5.6.3"
   },
   "dependencies": {
