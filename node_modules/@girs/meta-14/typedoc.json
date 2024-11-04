@@ -1,7 +1,0 @@
-{
-    "entryPoints": ["./meta-14.d.ts"],
-    "readme": "./README.md",
-    "name": "Meta-14",
-    "tsconfig": "./tsconfig.json"
-}
-

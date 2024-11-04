@@ -9,12 +9,12 @@ import {
 import * as PanelMenu from "resource:///org/gnome/shell/ui/panelMenu.js";
 import * as PopupMenu from "resource:///org/gnome/shell/ui/popupMenu.js";
 import * as Main from "resource:///org/gnome/shell/ui/main.js";
-import { TodoListManager } from "./manager.js";
+import { Task, TodoListManager } from "./manager.js";
 import { isEmpty } from "./utils.js";
 
 const MAX_WINDOW_WIDTH = 500;
 const MAX_INPUT_CHARS = 200;
-const indicator  = (total: number) => _(`(✔${total})`)
+const buttonIcon = (total: number) => _(`(✔${total})`);
 
 export default class TodoListExtension extends Extension {
   _indicator?: PanelMenu.Button | null;
@@ -31,20 +31,21 @@ export default class TodoListExtension extends Extension {
     this._manager = new TodoListManager();
     // we use this state var, to destroy the current todos box children
     // and not append to it, because if it's empty a message will be displayed
-    this._isTodosEmpty = true;
+    const totalTodos = this._manager.getTotalUndone();
+    this._isTodosEmpty = !totalTodos;
 
     this.mainBox = undefined;
     this.buttonText = new St.Label({
-      text: _("(...)"),
+      text: buttonIcon(totalTodos),
       y_align: Clutter.ActorAlign.CENTER,
     });
     this.buttonText.set_style("text-align:center;");
     this.button.add_child(this.buttonText);
     this._indicator = this.button;
-    // Create a PopupMenu for the button
     Main.panel.addToStatusArea(this.uuid, this._indicator);
+    // Create a PopupMenu for the button
     this._buildUI();
-    this._populate(); // initi
+    this._populate();
   }
 
   _buildUI() {
@@ -83,21 +84,20 @@ export default class TodoListExtension extends Extension {
     // this.input.set_style("max-width: ${MAX_WINDOW_WIDTH};");
     this.input.clutterText.connect("activate", (source) => {
       let taskText = source.get_text().trim();
-      console.log(taskText);
       if (taskText) {
         let todosLength = this._manager.get().length;
         this._addTask(taskText, todosLength);
         source.set_text("");
       }
     });
-    this.input.clutter_text.set_max_length(200);
+    this.input.clutter_text.set_max_length(MAX_INPUT_CHARS);
 
     // Bottom section
     var bottomSection = new PopupMenu.PopupMenuSection();
     bottomSection.actor.add_child(this.input);
     bottomSection.actor.add_style_class_name("newTaskSection");
     this.mainBox.add_child(bottomSection.actor);
-    (this.button.menu as PopupMenu.PopupMenu).box.add_child(this.mainBox)
+    (this.button.menu as PopupMenu.PopupMenu).box.add_child(this.mainBox);
   }
 
   _populate() {
@@ -125,17 +125,17 @@ export default class TodoListExtension extends Extension {
   }
 
   _addTask(task: string, index: number) {
-    console.log("UNDEFINED ?", this._manager === undefined);
     this._manager.add(task);
     if (this._isTodosEmpty) {
       this.todosBox.destroy_all_children();
       this._isTodosEmpty = false;
     }
-    const newTask = { name: task, isDone: false };
+    const newTask: Task = { name: task, isDone: false };
     this._addTodoItem(newTask, index);
+    this._refreshTodosButtonText();
   }
 
-  _addTodoItem(task: any, index: number) {
+  _addTodoItem(task: Task, index: number) {
     // Create a new PopupMenuItem for the task
     let item = new PopupMenu.PopupMenuItem("");
     item.style_class = "item";
@@ -145,20 +145,32 @@ export default class TodoListExtension extends Extension {
       vertical: false,
     });
 
-    let toggleCompletionBtn = new St.Button({
+    const toggleBtnLabel = new St.Label({
+      text: task.isDone ? "✔" : "",
+    });
+    const toggleCompletionBtn = new St.Button({
       style_class: "toggle-completion-btn",
       y_align: Clutter.ActorAlign.CENTER,
+      child: toggleBtnLabel,
     });
 
     toggleCompletionBtn.connect("clicked", () => {
       this._manager.update(index, { ...task, isDone: !task.isDone });
+      const willBeDone = !task.isDone;
+      if (willBeDone) {
+        // toggler, so we are going to add the done icon
+        toggleBtnLabel.set_text("✔");
+      } else {
+        toggleBtnLabel.set_text("");
+      }
       this._populate();
+      this._refreshTodosButtonText();
     });
 
     box.add_child(toggleCompletionBtn);
 
     // Task label
-    let label = new St.Label({
+    const label = new St.Label({
       text: task.name,
       y_align: Clutter.ActorAlign.CENTER,
       style_class: "task-label",
@@ -166,15 +178,11 @@ export default class TodoListExtension extends Extension {
     label.clutter_text.line_wrap = true;
     label.clutter_text.set_ellipsize(0);
 
-    console.log(JSON.stringify(task, null, 2));
-
     if (task.isDone) {
-      // label.set_style("text-decoration: overline;")
+      // cross line
       label.clutter_text.set_markup(`<s>${task.name}</s>`);
       label.set_style("color: #999");
     }
-
-    box.add_child(label);
 
     // Copty button
     const copyButton = new St.Button({
@@ -210,8 +218,10 @@ export default class TodoListExtension extends Extension {
     removeButton.connect("clicked", () => {
       this._manager.remove(index);
       this._populate();
+      this._refreshTodosButtonText();
     });
 
+    box.add_child(label);
     box.add_child(removeButton);
     box.add_child(copyButton);
 
@@ -220,6 +230,11 @@ export default class TodoListExtension extends Extension {
 
     // Finally, add the item to the todosBox
     this.todosBox.add_child(item);
+  }
+
+  _refreshTodosButtonText() {
+    const total = this._manager.getTotalUndone();
+    this.buttonText.clutterText.set_text(buttonIcon(total));
   }
 
   disable() {

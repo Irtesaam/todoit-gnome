@@ -17,6 +17,19 @@ export class TodoListManager {
     return this.GSettings.get_strv(TODOS);
   }
 
+  getTotalUndone() {
+    // retrieves todos as an array of strings
+    const todos = this.get();
+    if (!todos.length) {
+      return 0;
+    }
+
+    return todos.reduce((total, todo) => {
+      const parsedTodo: Task = JSON.parse(todo);
+      return total + (!parsedTodo.isDone ? 1 : 0);
+    }, 0);
+  }
+
   add(task: string) {
     let todos = this.get();
     todos.push(JSON.stringify({ name: task, isDone: false }));
@@ -42,7 +55,7 @@ export class TodoListManager {
   }
 }
 
-interface Task {
+export interface Task {
   name: string;
-  isDone: boolean
+  isDone: boolean;
 }
