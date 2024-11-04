@@ -13,6 +13,8 @@ import { TodoListManager } from "./manager.js";
 import { isEmpty } from "./utils.js";
 
 const MAX_WINDOW_WIDTH = 500;
+const MAX_INPUT_CHARS = 200;
+const indicator  = (total: number) => _(`(✔${total})`)
 
 export default class TodoListExtension extends Extension {
   _indicator?: PanelMenu.Button | null;
