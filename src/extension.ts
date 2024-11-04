@@ -11,8 +11,8 @@ import * as PopupMenu from "resource:///org/gnome/shell/ui/popupMenu.js";
 import * as Main from "resource:///org/gnome/shell/ui/main.js";
 import { Task, TodoListManager } from "./manager.js";
 import { isEmpty } from "./utils.js";
-import Meta14 from "gi://Meta";
-import Shell14 from "gi://Shell";
+import Meta from "gi://Meta";
+import Shell from "gi://Shell";
 
 const MAX_WINDOW_WIDTH = 500;
 const MAX_INPUT_CHARS = 200;
@@ -236,8 +236,8 @@ export default class TodoListExtension extends Extension {
     Main.wm.addKeybinding(
       "open-todoit",
       this.getSettings(),
-      Meta14.KeyBindingFlags.NONE,
-      Shell14.ActionMode.ALL,
+      Meta.KeyBindingFlags.NONE,
+      Shell.ActionMode.ALL,
       () => {
         this.button.menu.toggle();
         this.input?.clutterText.grab_key_focus();
