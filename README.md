@@ -1,15 +1,10 @@
-<center>
-<h1> Todoit Gnome Extension </h1>
-</center>
+<h1 align="center"> Todoit Gnome Extension </h1>
 
-<center><img width="100px" src="static/tick.png"></center>
-
-<br />
-<br />
+<p align="center"><img width="100px" src="static/tick.png"></p>
 
 # Demo
 
-<center><img width="100px" src="static/demo.webm"></center>
+<center><video width="100px" src="static/demo.webm"></video></center>
 
 # Features
 
