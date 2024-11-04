@@ -1,23 +1,32 @@
-# build and pack
+# to start developping
+.PHONY: dev
+dev: yarn run
 
 .PHONY: start
 start:
 	dbus-run-session -- gnome-shell --nested --wayland
 
+# build schema
 .PHONY: schemas
 schemas:
 	rm ./schemas/gschemas.compiled -f
 	glib-compile-schemas ./schemas
 
-
+# build ts
 .PHONY: build
 build:
 	yarn build
 
 clean_build:
-	rm *.js -f
+	rm build *.zip *.js -rf
 
-build_run: clean_build build start
+# run build
+.PHONY: run
+run: clean_build build start
 
-clean_build:
+# pack for distribution
+.PHONY: pack
+pack:
 	rm build -rf
+	rm *.zip -rf
+	sh build.sh
