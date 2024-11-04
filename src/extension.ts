@@ -48,7 +48,7 @@ export default class TodoListExtension extends Extension {
     // Create a PopupMenu for the button
     this._buildUI();
     this._populate();
-    this._openShortcut();
+    this._toggleShortcut();
   }
 
   _buildUI() {
@@ -232,7 +232,7 @@ export default class TodoListExtension extends Extension {
     this.buttonText.clutterText.set_text(buttonIcon(total));
   }
 
-  _openShortcut() {
+  _toggleShortcut() {
     Main.wm.addKeybinding(
       "open-todoit",
       this.getSettings(),
