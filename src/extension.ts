@@ -239,7 +239,7 @@ export default class TodoListExtension extends Extension {
       Meta14.KeyBindingFlags.NONE,
       Shell14.ActionMode.ALL,
       () => {
-        this.button.menu.open(true);
+        this.button.menu.toggle();
         this.input?.clutterText.grab_key_focus();
       }
     );
