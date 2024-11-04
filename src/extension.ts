@@ -11,6 +11,8 @@ import * as PopupMenu from "resource:///org/gnome/shell/ui/popupMenu.js";
 import * as Main from "resource:///org/gnome/shell/ui/main.js";
 import { Task, TodoListManager } from "./manager.js";
 import { isEmpty } from "./utils.js";
+import Meta14 from "gi://Meta";
+import Shell14 from "gi://Shell";
 
 const MAX_WINDOW_WIDTH = 500;
 const MAX_INPUT_CHARS = 200;
@@ -46,6 +48,7 @@ export default class TodoListExtension extends Extension {
     // Create a PopupMenu for the button
     this._buildUI();
     this._populate();
+    this._openShortcut();
   }
 
   _buildUI() {
@@ -68,7 +71,7 @@ export default class TodoListExtension extends Extension {
     scrollView.add_child(this.todosBox);
     // Separator
     var separator = new PopupMenu.PopupSeparatorMenuItem();
-    
+
     this.mainBox.add_child(scrollView);
     this.mainBox.add_child(separator);
     this.mainBox.set_style(`width: ${MAX_WINDOW_WIDTH}px; max-height: 500px;`);
@@ -87,6 +90,7 @@ export default class TodoListExtension extends Extension {
       if (taskText) {
         this._addTask(taskText);
         source.set_text("");
+        source.grab_key_focus();
       }
     });
     this.input.clutterText.set_max_length(MAX_INPUT_CHARS);
@@ -104,15 +108,13 @@ export default class TodoListExtension extends Extension {
 
     const todos = this._manager.get();
     if (isEmpty(todos)) {
-      // this._isTodosEmpty = true;
       let item = new St.Label({
         text: _("✅ Nothing to do for now"),
         y_align: Clutter.ActorAlign.CENTER,
-        style: "text-align:center; font-size: 20px; padding: 15px 0;",
+        style: "text-align:center; font-size: 20px; padding: 20px 0;",
       });
       this.todosBox.add_child(item);
     } else {
-      // this._isTodosEmpty = false;
       let i = 0;
       for (const task of todos) {
         const parsedTask = JSON.parse(task);
@@ -215,8 +217,8 @@ export default class TodoListExtension extends Extension {
     });
 
     box.add_child(label);
-    box.add_child(removeButton);
     box.add_child(copyButton);
+    box.add_child(removeButton);
 
     // Add the box to the item
     item.add_child(box);
@@ -228,6 +230,19 @@ export default class TodoListExtension extends Extension {
   _refreshTodosButtonText() {
     const total = this._manager.getTotalUndone();
     this.buttonText.clutterText.set_text(buttonIcon(total));
+  }
+
+  _openShortcut() {
+    Main.wm.addKeybinding(
+      "open-todoit",
+      this.getSettings(),
+      Meta14.KeyBindingFlags.NONE,
+      Shell14.ActionMode.ALL,
+      () => {
+        this.button.menu.open(true);
+        this.input?.clutterText.grab_key_focus();
+      }
+    );
   }
 
   disable() {

@@ -5,5 +5,10 @@
       <default>[]</default>
       <summary>List of todos</summary>
     </key>
+    <key name="open-todoit" type="as">
+      <default><![CDATA[['<Alt><Shift>space']]]></default>
+      <summary>Shortcut to open the extension</summary>
+      <description>Click `Alt+Shift+Space` to open the extension.</description>
+    </key>
   </schema>
 </schemalist>
