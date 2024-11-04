@@ -34,9 +34,7 @@ export default class TodoListExtension extends Extension {
     // we use this state var, to destroy the current todos box children
     // and not append to it, because if it's empty a message will be displayed
     const totalTodos = this._manager.getTotalUndone();
-    // this._isTodosEmpty = !totalTodos;
 
-    this.mainBox = undefined;
     this.buttonText = new St.Label({
       text: buttonIcon(totalTodos),
       y_align: Clutter.ActorAlign.CENTER,
@@ -46,12 +44,12 @@ export default class TodoListExtension extends Extension {
     this._indicator = this.button;
     Main.panel.addToStatusArea(this.uuid, this._indicator);
     // Create a PopupMenu for the button
-    this._buildUI();
+    this._buildPopupMenu();
     this._populate();
     this._toggleShortcut();
   }
 
-  _buildUI() {
+  _buildPopupMenu() {
     // Destroy previous box
     if (this.mainBox != undefined) {
       this.mainBox.destroy();
