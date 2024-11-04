@@ -19,7 +19,7 @@ const buttonIcon = (total: number) => _(`(✔${total})`);
 export default class TodoListExtension extends Extension {
   _indicator?: PanelMenu.Button | null;
   _manager!: TodoListManager;
-  _isTodosEmpty: boolean = false;
+  // _isTodosEmpty: boolean = false;
   mainBox?: St.BoxLayout;
   todosBox!: St.BoxLayout;
   buttonText!: St.Label;
@@ -32,7 +32,7 @@ export default class TodoListExtension extends Extension {
     // we use this state var, to destroy the current todos box children
     // and not append to it, because if it's empty a message will be displayed
     const totalTodos = this._manager.getTotalUndone();
-    this._isTodosEmpty = !totalTodos;
+    // this._isTodosEmpty = !totalTodos;
 
     this.mainBox = undefined;
     this.buttonText = new St.Label({
@@ -66,11 +66,11 @@ export default class TodoListExtension extends Extension {
       vscrollbar_policy: Gtk.PolicyType.AUTOMATIC,
     });
     scrollView.add_child(this.todosBox);
-    this.mainBox.add_child(scrollView);
-
     // Separator
     var separator = new PopupMenu.PopupSeparatorMenuItem();
-    this.mainBox.add_child(separator.actor);
+    
+    this.mainBox.add_child(scrollView);
+    this.mainBox.add_child(separator);
     this.mainBox.set_style(`width: ${MAX_WINDOW_WIDTH}px; max-height: 500px;`);
 
     // Text entry
@@ -85,17 +85,15 @@ export default class TodoListExtension extends Extension {
     this.input.clutterText.connect("activate", (source) => {
       let taskText = source.get_text().trim();
       if (taskText) {
-        let todosLength = this._manager.get().length;
-        this._addTask(taskText, todosLength);
+        this._addTask(taskText);
         source.set_text("");
       }
     });
-    this.input.clutter_text.set_max_length(MAX_INPUT_CHARS);
+    this.input.clutterText.set_max_length(MAX_INPUT_CHARS);
 
     // Bottom section
     var bottomSection = new PopupMenu.PopupMenuSection();
     bottomSection.actor.add_child(this.input);
-    bottomSection.actor.add_style_class_name("newTaskSection");
     this.mainBox.add_child(bottomSection.actor);
     (this.button.menu as PopupMenu.PopupMenu).box.add_child(this.mainBox);
   }
@@ -106,7 +104,7 @@ export default class TodoListExtension extends Extension {
 
     const todos = this._manager.get();
     if (isEmpty(todos)) {
-      this._isTodosEmpty = true;
+      // this._isTodosEmpty = true;
       let item = new St.Label({
         text: _("✅ Nothing to do for now"),
         y_align: Clutter.ActorAlign.CENTER,
@@ -114,7 +112,7 @@ export default class TodoListExtension extends Extension {
       });
       this.todosBox.add_child(item);
     } else {
-      this._isTodosEmpty = false;
+      // this._isTodosEmpty = false;
       let i = 0;
       for (const task of todos) {
         const parsedTask = JSON.parse(task);
@@ -124,14 +122,9 @@ export default class TodoListExtension extends Extension {
     }
   }
 
-  _addTask(task: string, index: number) {
+  _addTask(task: string) {
     this._manager.add(task);
-    if (this._isTodosEmpty) {
-      this.todosBox.destroy_all_children();
-      this._isTodosEmpty = false;
-    }
-    const newTask: Task = { name: task, isDone: false };
-    this._addTodoItem(newTask, index);
+    this._populate();
     this._refreshTodosButtonText();
   }
 
@@ -175,12 +168,12 @@ export default class TodoListExtension extends Extension {
       y_align: Clutter.ActorAlign.CENTER,
       style_class: "task-label",
     });
-    label.clutter_text.line_wrap = true;
-    label.clutter_text.set_ellipsize(0);
+    label.clutterText.line_wrap = true;
+    label.clutterText.set_ellipsize(0);
 
     if (task.isDone) {
       // cross line
-      label.clutter_text.set_markup(`<s>${task.name}</s>`);
+      label.clutterText.set_markup(`<s>${task.name}</s>`);
       label.set_style("color: #999");
     }
 
