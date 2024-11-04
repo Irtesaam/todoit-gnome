@@ -1,5 +1,5 @@
 <center>
-<h2> Todoit Gnome Extension </h2>
+<h1> Todoit Gnome Extension </h1>
 </center>
 
 <center><img width="100px" src="static/tick.png"></center>
