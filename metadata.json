@@ -3,8 +3,5 @@
   "description": "Simple todo list, to keep you organized",
   "uuid": "todoit@wassimbj.github.io",
   "shell-version": ["46"],
-  "settings-schema": "org.gnome.shell.extensions.todoit",
-  "keybindings": {
-    "open-extension": "['<Alt><Shift>O']"
-  }
+  "settings-schema": "org.gnome.shell.extensions.todoit"
 }
