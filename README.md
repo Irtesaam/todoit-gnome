@@ -2,11 +2,11 @@
 
 <div align="center"><img src="static/tick.png"></div>
 
-# Demo
+## Demo
 
 ![autocomplete](static/demo.gif)
 
-# Features
+## Features
 
 - Add/remove/copy tasks
 - Toggle tasks progress
@@ -14,13 +14,13 @@
 - Focus on a specific task _(coming soon)_
 - Drag and Drop _(coming soon)_
 
-# Install
+## Install
 
 All you need to use todoit is the **zip file**
 
-## Baby steps
+### Baby steps
 
-## 1) Install gnome extensions manager
+### 1) Install gnome extensions manager
 
 But before that, make sure you have **gnome extensions prefs** installed, search for `extensions` in your search bar, if it's not found install it with the command below.
 
@@ -28,12 +28,12 @@ But before that, make sure you have **gnome extensions prefs** installed, search
 sudo apt install gnome-shell-extension-prefs
 ```
 
-## 2) Download the zip file
+### 2) Download the zip file
 
 *todoit@wassimbj.github.io.zip*
 [Download extension](https://github.com/wassimbj/todoit-gnome/blob/master/todoit%40wassimbj.github.io.zip)
 
-## 3) Extract and install
+### 3) Extract and install
 
 Unzip the extension inside **`~/.local/share/gnome-shell/extensions`** folder and that's all.
 
@@ -44,7 +44,7 @@ Now open the extensions manager and enable the *Todo List* extension.
 > You can run `gnome-shell-extension-prefs` to open it, or directly from the apps list (Extensions).
 
 The extracted zip file structure should look like this
-```
+```bash
 todoit@wassimbj.github.io/
 ├── extension.js
 ├── manager.js
