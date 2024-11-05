@@ -30,8 +30,7 @@ sudo apt install gnome-shell-extension-prefs
 
 ### 2) Download the zip file
 
-*todoit@wassimbj.github.io.zip*
-[Download extension](https://github.com/wassimbj/todoit-gnome/blob/master/todoit%40wassimbj.github.io.zip)
+[Download todoit@wassimbj.github.io.zip](https://github.com/wassimbj/todoit-gnome/blob/master/todoit%40wassimbj.github.io.zip)
 
 ### 3) Extract and install
 
@@ -55,3 +54,6 @@ todoit@wassimbj.github.io/
 ├── stylesheet.css
 └── utils.js
 ```
+
+## Credits
+the very first icon is from [flaticon](https://www.flaticon.com)
