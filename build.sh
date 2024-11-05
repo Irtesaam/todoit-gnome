@@ -20,6 +20,7 @@ cp -r schemas build
 cp *.js build
 cp stylesheet.css build
 cp metadata.json build
+cp LICENCE build
 
 echo "######## Zip ########"
 cd build
