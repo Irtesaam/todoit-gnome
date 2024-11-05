@@ -46,6 +46,7 @@ The extracted zip file structure should look like this
 ```bash
 todoit@wassimbj.github.io/
 ├── extension.js
+├── LICENCE
 ├── manager.js
 ├── metadata.json
 ├── schemas
