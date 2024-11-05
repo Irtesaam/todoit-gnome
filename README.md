@@ -38,7 +38,7 @@ Unzip the extension inside **`~/.local/share/gnome-shell/extensions`** folder an
 
 > Make sure to create the `extensions` folder if it doesn't exist
 
-Now open the extensions manager and enable the *Todo List* extension.
+Now open the extensions manager and **enable the *Todo List* extension**.
 
 > You can run `gnome-shell-extension-prefs` to open it, or directly from the apps list (Extensions).
 
