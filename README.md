@@ -32,7 +32,7 @@ sudo apt install gnome-shell-extension-prefs
 
 [Download todoit@wassimbj.github.io.zip](https://github.com/wassimbj/todoit-gnome/blob/master/todoit%40wassimbj.github.io.zip)
 
-### 3) Extract and install
+### 3) Extract and enable
 
 Unzip the extension inside **`~/.local/share/gnome-shell/extensions`** folder
 
