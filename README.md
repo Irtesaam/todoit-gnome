@@ -34,7 +34,7 @@ sudo apt install gnome-shell-extension-prefs
 
 ### 3) Extract and install
 
-Unzip the extension inside **`~/.local/share/gnome-shell/extensions`** folder and that's all.
+Unzip the extension inside **`~/.local/share/gnome-shell/extensions`** folder
 
 > Make sure to create the `extensions` folder if it doesn't exist
 
