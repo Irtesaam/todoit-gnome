@@ -50,7 +50,17 @@ export class TodoListManager {
     if (isEmpty(todos)) {
       return;
     }
-    todos[index] = JSON.stringify(todo, null, 2);
+    if (todo.isFocused && index > 0) {
+      // focus should only be on a single field
+      // i don't want to update all the other ones isFocused to false
+      // it's just not good, to know if it's focus just check if index === 0 and isFocused = true
+      // we will move it to the top
+      const tmp = todos[0];
+      todos[0] = JSON.stringify(todo, null, 2);
+      todos[index] = tmp;
+    } else {
+      todos[index] = JSON.stringify(todo, null, 2);
+    }
     this.GSettings.set_strv(TODOS, todos);
   }
 }
@@ -58,4 +68,5 @@ export class TodoListManager {
 export interface Task {
   name: string;
   isDone: boolean;
+  isFocused?: boolean;
 }

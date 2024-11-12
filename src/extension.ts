@@ -70,16 +70,13 @@ export default class TodoListExtension extends Extension {
     // Separator
     var separator = new PopupMenu.PopupSeparatorMenuItem();
 
-    this.mainBox.add_child(scrollView);
-    this.mainBox.add_child(separator);
-    this.mainBox.set_style(`width: ${MAX_WINDOW_WIDTH}px; max-height: 500px;`);
-
     // Text entry
     this.input = new St.Entry({
       name: "newTaskEntry",
       hint_text: _("New task..."),
       track_hover: true,
       can_focus: true,
+      styleClass: "input",
     });
 
     // this.input.set_style("max-width: ${MAX_WINDOW_WIDTH};");
@@ -96,7 +93,12 @@ export default class TodoListExtension extends Extension {
     // Bottom section
     var bottomSection = new PopupMenu.PopupMenuSection();
     bottomSection.actor.add_child(this.input);
+
+    this.mainBox.add_child(scrollView);
+    this.mainBox.add_child(separator);
+    this.mainBox.set_style(`width: ${MAX_WINDOW_WIDTH}px; max-height: 500px;`);
     this.mainBox.add_child(bottomSection.actor);
+
     (this.button.menu as PopupMenu.PopupMenu).box.add_child(this.mainBox);
   }
 
@@ -129,15 +131,17 @@ export default class TodoListExtension extends Extension {
   }
 
   _addTodoItem(task: Task, index: number) {
+    const isFocused = index === 0 && task.isFocused;
     // Create a new PopupMenuItem for the task
     let item = new PopupMenu.PopupMenuItem("");
-    item.style_class = "item";
+    item.style_class = `item ${isFocused ? "focused-task" : ""}`;
     // Create a horizontal box layout for custom alignment
     let box = new St.BoxLayout({
       style_class: "todo-item-layout", // You can add a custom class here
       vertical: false,
     });
 
+    // Checkbox button
     const toggleBtnLabel = new St.Label({
       text: task.isDone ? "✔" : "",
     });
@@ -181,7 +185,7 @@ export default class TodoListExtension extends Extension {
     const copyButton = new St.Button({
       child: new St.Icon({
         icon_name: "edit-copy-symbolic",
-        style_class: "copy-icon",
+        style_class: "btn-icon",
       }),
       style_class: "copy-btn",
       y_align: Clutter.ActorAlign.CENTER,
@@ -196,11 +200,11 @@ export default class TodoListExtension extends Extension {
       return Clutter.EVENT_STOP; // Stop propagation of the event
     });
 
-    // Create the remove button
+    // Remove button
     const removeButton = new St.Button({
       child: new St.Icon({
         icon_name: "edit-delete-symbolic",
-        style_class: "remove-icon",
+        style_class: "remove-icon btn-icon",
       }),
       style_class: "remove-btn",
       y_align: Clutter.ActorAlign.CENTER,
@@ -214,8 +218,28 @@ export default class TodoListExtension extends Extension {
       this._refreshTodosButtonText();
     });
 
+    // Focus button
+    const focusButton = new St.Button({
+      child: new St.Icon({
+        icon_name: "find-location-symbolic",
+        style_class: "focus-icon btn-icon",
+      }),
+      style_class: "focus-btn",
+      y_align: Clutter.ActorAlign.CENTER,
+      x_align: Clutter.ActorAlign.END,
+    });
+
+    focusButton.connect("clicked", () => {
+      this._manager.update(index, {
+        ...task,
+        isFocused: !isFocused,
+      });
+      this._populate();
+    });
+
     box.add_child(label);
     box.add_child(copyButton);
+    box.add_child(focusButton);
     box.add_child(removeButton);
 
     // Add the box to the item
