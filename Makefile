@@ -1,7 +1,3 @@
-# to start developping
-.PHONY: dev
-dev: yarn run
-
 .PHONY: start
 start:
 	dbus-run-session -- gnome-shell --nested --wayland
@@ -22,7 +18,7 @@ clean_build:
 
 # run build
 .PHONY: run
-run: clean_build build start
+dev: clean_build build start
 
 # pack for distribution
 .PHONY: pack
