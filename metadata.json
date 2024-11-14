@@ -1,6 +1,6 @@
 {
   "name": "Todoit",
-  "description": "Simple todo list, to keep you organized",
+  "description": "Simple todo list, to keep you focused on your daily tasks",
   "uuid": "todoit@wassimbj.github.io",
   "shell-version": ["46"],
   "url": "https://github.com/wassimbj/todoit-gnome",
