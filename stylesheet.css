@@ -39,6 +39,7 @@
   padding: 10px;
   display: flex;
   align-items: center;
+  border-radius: 5px;
 }
 
 .focus-btn {
