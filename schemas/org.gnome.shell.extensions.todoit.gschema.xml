@@ -5,6 +5,7 @@
       <default>[]</default>
       <summary>List of todos</summary>
     </key>
+    <!-- got this piece of code from: https://github.com/bsaleil/todolist-gnome-shell-extension -->
     <key name="open-todoit" type="as">
       <default><![CDATA[['<Alt><Shift>space']]]></default>
       <summary>Shortcut to open the extension</summary>
