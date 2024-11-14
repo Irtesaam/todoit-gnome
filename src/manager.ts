@@ -1,4 +1,5 @@
-import { Extension } from "resource:///org/gnome/shell/extensions/extension.js";
+// import { Extension } from "resource:///org/gnome/shell/extensions/extension.js";
+import { Extension } from "@girs/gnome-shell/extensions/extension";
 import { isEmpty } from "./utils.js";
 import Gio from "gi://Gio";
 
@@ -7,9 +8,8 @@ const TODOS = "todos";
 export class TodoListManager {
   GSettings: Gio.Settings;
 
-  constructor() {
-    const extensionObject = Extension.lookupByUUID("todoit@wassimbj.github.io");
-    this.GSettings = extensionObject!.getSettings();
+  constructor(extension: Extension) {
+    this.GSettings = extension.getSettings();
   }
 
   get() {

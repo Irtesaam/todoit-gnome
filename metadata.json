@@ -3,5 +3,6 @@
   "description": "Simple todo list, to keep you organized",
   "uuid": "todoit@wassimbj.github.io",
   "shell-version": ["46"],
+  "url": "https://github.com/wassimbj/todoit-gnome",
   "settings-schema": "org.gnome.shell.extensions.todoit"
 }

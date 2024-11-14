@@ -19,16 +19,16 @@ const buttonIcon = (total: number) => _(`(✔${total})`);
 
 export default class TodoListExtension extends Extension {
   _indicator?: PanelMenu.Button | null;
-  _manager!: TodoListManager;
-  mainBox?: St.BoxLayout;
-  todosBox!: St.BoxLayout;
-  buttonText!: St.Label;
-  input?: St.Entry;
-  button!: PanelMenu.Button;
+  _manager!: TodoListManager | null;
+  mainBox?: St.BoxLayout | null;
+  todosBox!: St.BoxLayout | null;
+  buttonText!: St.Label | null;
+  input?: St.Entry | null;
+  button!: PanelMenu.Button | null;
 
   enable() {
     this.button = new PanelMenu.Button(0.0, this.metadata.name, false);
-    this._manager = new TodoListManager();
+    this._manager = new TodoListManager(this);
     const totalTodos = this._manager.getTotalUndone();
 
     this.buttonText = new St.Label({
@@ -93,24 +93,24 @@ export default class TodoListExtension extends Extension {
     this.mainBox.set_style(`width: ${MAX_WINDOW_WIDTH}px; max-height: 500px;`);
     this.mainBox.add_child(bottomSection.actor);
 
-    (this.button.menu as PopupMenu.PopupMenu).box.add_child(this.mainBox);
+    (this.button?.menu as PopupMenu.PopupMenu).box.add_child(this.mainBox);
   }
 
   _populate() {
     // clear the todos box before populating it
-    this.todosBox.destroy_all_children();
+    this.todosBox?.destroy_all_children();
 
-    const todos = this._manager.get();
+    const todos = this._manager?.get();
     if (isEmpty(todos)) {
       let item = new St.Label({
         text: _("✅ Nothing to do for now"),
         y_align: Clutter.ActorAlign.CENTER,
         style: "text-align:center; font-size: 20px; padding: 20px 0;",
       });
-      this.todosBox.add_child(item);
+      this.todosBox?.add_child(item);
     } else {
       let i = 0;
-      for (const task of todos) {
+      for (const task of todos!) {
         const parsedTask = JSON.parse(task);
         this._addTodoItem(parsedTask, i);
         i = i + 1;
@@ -119,7 +119,7 @@ export default class TodoListExtension extends Extension {
   }
 
   _addTask(task: string) {
-    this._manager.add(task);
+    this._manager?.add(task);
     this._populate();
     this._refreshTodosButtonText();
   }
@@ -146,7 +146,7 @@ export default class TodoListExtension extends Extension {
     });
 
     toggleCompletionBtn.connect("clicked", () => {
-      this._manager.update(index, { ...task, isDone: !task.isDone });
+      this._manager?.update(index, { ...task, isDone: !task.isDone });
       const willBeDone = !task.isDone;
       if (willBeDone) {
         // toggler, so we are going to add the done icon
@@ -207,7 +207,7 @@ export default class TodoListExtension extends Extension {
 
     // Connect the button click event
     removeButton.connect("clicked", () => {
-      this._manager.remove(index);
+      this._manager?.remove(index);
       this._populate();
       this._refreshTodosButtonText();
     });
@@ -224,7 +224,7 @@ export default class TodoListExtension extends Extension {
     });
 
     focusButton.connect("clicked", () => {
-      this._manager.update(index, {
+      this._manager?.update(index, {
         ...task,
         isFocused: !isFocused,
       });
@@ -240,12 +240,12 @@ export default class TodoListExtension extends Extension {
     item.add_child(box);
 
     // Finally, add the item to the todosBox
-    this.todosBox.add_child(item);
+    this.todosBox?.add_child(item);
   }
 
   _refreshTodosButtonText() {
-    const total = this._manager.getTotalUndone();
-    this.buttonText.clutterText.set_text(buttonIcon(total));
+    const total = this._manager?.getTotalUndone();
+    this.buttonText?.clutterText.set_text(buttonIcon(total ?? 0));
   }
 
   _toggleShortcut() {
@@ -255,7 +255,7 @@ export default class TodoListExtension extends Extension {
       Meta.KeyBindingFlags.NONE,
       Shell.ActionMode.ALL,
       () => {
-        this.button.menu.toggle();
+        this.button?.menu.toggle();
         this.input?.clutterText.grab_key_focus();
       }
     );
@@ -269,6 +269,13 @@ export default class TodoListExtension extends Extension {
     this.input?.destroy();
     this.button?.destroy();
 
+    Main.wm.removeKeybinding("open-todoit")
+
+    this.mainBox = null;
+    this.todosBox = null;
+    this.buttonText = null;
+    this.input = null;
+    this.button = null;
     this._indicator = null;
   }
 }
