@@ -1,5 +1,5 @@
 
-export function isEmpty(data: any) {
+export function isEmpty(data: unknown) {
   if (Array.isArray(data)) {
     return !data.length;
   }

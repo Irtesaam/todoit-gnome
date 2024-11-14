@@ -31,13 +31,13 @@ export class TodoListManager {
   }
 
   add(task: string) {
-    let todos = this.get();
+    const todos = this.get();
     todos.push(JSON.stringify({ name: task, isDone: false }));
     this.GSettings.set_strv(TODOS, todos);
   }
 
   remove(index: number) {
-    let todos = this.get();
+    const todos = this.get();
     if (isEmpty(todos)) {
       return;
     }
@@ -46,7 +46,7 @@ export class TodoListManager {
   }
 
   update(index: number, todo: Task) {
-    let todos = this.get();
+    const todos = this.get();
     if (isEmpty(todos)) {
       return;
     }
