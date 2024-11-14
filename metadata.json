@@ -1,5 +1,5 @@
 {
-  "name": "Todo List",
+  "name": "Todoit",
   "description": "Simple todo list, to keep you organized",
   "uuid": "todoit@wassimbj.github.io",
   "shell-version": ["46"],
