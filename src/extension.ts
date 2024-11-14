@@ -1,5 +1,4 @@
 "use strict";
-import Gtk from "gi://Gtk";
 import Clutter from "gi://Clutter";
 import St from "gi://St";
 import {
@@ -60,8 +59,6 @@ export default class TodoListExtension extends Extension {
     // Create todos scrollview
     var scrollView = new St.ScrollView({
       style_class: "vfade",
-      hscrollbar_policy: Gtk.PolicyType.NEVER,
-      vscrollbar_policy: Gtk.PolicyType.AUTOMATIC,
     });
     scrollView.add_child(this.todosBox);
     // Separator
