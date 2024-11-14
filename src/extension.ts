@@ -21,7 +21,6 @@ const buttonIcon = (total: number) => _(`(✔${total})`);
 export default class TodoListExtension extends Extension {
   _indicator?: PanelMenu.Button | null;
   _manager!: TodoListManager;
-  // _isTodosEmpty: boolean = false;
   mainBox?: St.BoxLayout;
   todosBox!: St.BoxLayout;
   buttonText!: St.Label;
@@ -31,8 +30,6 @@ export default class TodoListExtension extends Extension {
   enable() {
     this.button = new PanelMenu.Button(0.0, this.metadata.name, false);
     this._manager = new TodoListManager();
-    // we use this state var, to destroy the current todos box children
-    // and not append to it, because if it's empty a message will be displayed
     const totalTodos = this._manager.getTotalUndone();
 
     this.buttonText = new St.Label({
@@ -269,6 +266,12 @@ export default class TodoListExtension extends Extension {
 
   disable() {
     this._indicator?.destroy();
+    this.mainBox?.destroy();
+    this.todosBox?.destroy();
+    this.buttonText?.destroy();
+    this.input?.destroy();
+    this.button?.destroy();
+
     this._indicator = null;
   }
 }

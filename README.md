@@ -11,7 +11,7 @@
 - Add/remove/copy tasks
 - Toggle tasks progress
 - Toggle with a shortcut (Alt+Shift+Space)
-- Focus on a specific task _(coming soon)_
+- Focus on a specific task (moves the task to the top and highlight it with a bg color)
 - Drag and Drop _(coming soon)_
 
 ## Install
