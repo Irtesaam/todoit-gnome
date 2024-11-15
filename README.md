@@ -12,13 +12,18 @@
 - Toggle tasks progress
 - Toggle with a shortcut (Alt+Shift+Space)
 - Focus on a specific task (moves the task to the top and highlight it with a bg color)
-- Drag and Drop _(coming soon)_
+
+## Support
+Todoit is built with the latest gnome API, which uses ESM to import the needed libraries.
+So **as long as you have gnome version >= 45, todoit will work** 
 
 ## Install
 
-All you need to use todoit is the **zip file**
+Todoit is available on gnome extensions, you can [download it here](https://extensions.gnome.org/extension/7538)
 
-### Baby steps
+
+### Manual install
+All you need to use todoit is the **zip file**
 
 ### 1) Install gnome extensions manager
 
