@@ -1,8 +1,8 @@
 {
-  "name": "Todoit",
-  "description": "Simple todo list, to keep you focused on your daily tasks",
+  "name": "Todoit - Enhanced",
+  "description": "Enhanced todo list extension with improved UX, in-place editing, and better task management",
   "uuid": "todoit-fork@irtesaam.github.io",
   "shell-version": ["45", "46", "47", "48"],
-  "url": "https://github.com/wassimbj/todoit-gnome",
+  "url": "https://github.com/Irtesaam/todoit-gnome",
   "settings-schema": "org.gnome.shell.extensions.todoit"
 }

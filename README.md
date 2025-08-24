@@ -1,65 +1,116 @@
-<h1 align="center"> Todoit Gnome Extension </h1>
+<h1 align="center"> 🚀 Todoit Gnome Extension - Enhanced Fork </h1>
 
-<div align="center"><img src="static/tick.png"></div>
+## 🎯 About This Fork
 
-## Demo
+This is an enhanced fork of the original [Todoit GNOME Extension](https://github.com/wassimbj/todoit-gnome) by wassimbj. While the original extension provided a solid foundation, this fork focuses on improving user experience, adding productivity features, and refining the interface.
+
+## 🎬 Demo
 
 ![autocomplete](static/demo.gif)
 
-## Features
+## ✨ Features
 
-- Add/remove/copy tasks
-- Toggle tasks progress
-- Toggle with a shortcut (Alt+Shift+Space)
-- Focus on a specific task (moves the task to the top and highlight it with a bg color)
+### 🆕 **Enhanced Features (This Fork)**
+- **🎯 Task Renaming**: Dedicated rename button that moves tasks to input field again.
+- **🔄 Improved Task Ordering**: New tasks automatically appear at the top (except focused ones)
+- **🗑️ Clear All**: Simple one-click clear all functionality with confirmation dialog box to avoid accidental cick.
+- **🎪 Enhanced UI**: Improved button spacing, hover effects, and overall polish.
+- **🎨 Polished Confirmation Dialogs**: Compact confirmation prompts that appear contextually.
 
-## Support
-Todoit is built with the latest gnome API, which uses ESM to import the needed libraries.
-So **as long as you have gnome version >= 45, todoit will work** 
+### 🎖️ **Core Features (Original)**
+- ➕ Add/remove/copy tasks
+- ✅ Toggle task completion status
+- ⌨️ Quick toggle with keyboard shortcut (Alt+Shift+Space)
+- 🎯 Focus on specific tasks (moves to top with highlight)
+- 📋 Copy tasks to clipboard
+- 🎨 Clean, native GNOME integration
 
-## Install
+## 🗺️ Upcoming
 
-Todoit is available on gnome extensions, you can [download it here](https://extensions.gnome.org/extension/7538)
+### 🎯 **Coming Soon**
+- **📅 Due Date Management**: deadline tracking
+- **📁 Priority Filters**: Organize tasks by priority filters (maybe combine with deadline somehow)
+- **🔔 Native GNOME Notifications**: Smart reminders integrated with the system
+- **⚡ Performance Optimization**: Debloat and Optimise the extension for performance
 
+## 🖥️ System Requirements
 
-### Manual install
-All you need to use todoit is the **zip file**
+Todoit uses modern GNOME APIs with ESM module support.
+**Compatible with GNOME Shell 45+** 🐧
 
-### 1) Install gnome extensions manager
+## 📦 Installation
 
-But before that, make sure you have **gnome extensions prefs** installed, search for `extensions` in your search bar, if it's not found install it with the command below.
+### 🏪 **Official Store (Recommended)**
+Available on GNOME Extensions: Not yet !
+<!--Available on GNOME Extensions: [Will publish soon](https://extensions.gnome.org/extension/7538)-->
 
+### 🔧 **Manual Installation**
+
+#### 1️⃣ Install GNOME Extensions Manager
+
+Fedora/RHEL/CentOS
 ```bash
-sudo apt install gnome-shell-extension-prefs
+sudo dnf install gnome-extensions-app
+```
+Ubuntu/Debian
+```bash
+sudo apt install gnome-shell-extensions
 ```
 
-### 2) Download the zip file
-
-[Download todoit@wassimbj.github.io.zip](https://github.com/wassimbj/todoit-gnome/blob/master/todoit%40wassimbj.github.io.zip)
-
-### 3) Extract and enable
-
-Unzip the extension inside **`~/.local/share/gnome-shell/extensions`** folder
-
-> Make sure to create the `extensions` folder if it doesn't exist
-
-Now open the extensions manager and **enable the *Todo List* extension**.
-
-> You can run `gnome-shell-extension-prefs` to open it, or directly from the apps list (Extensions).
-
-The extracted zip file structure should look like this
+#### 2️⃣ Download & Extract
 ```bash
+# Download the latest version from this fork
+wget https://github.com/Irtesaam/todoit-gnome/raw/master/todoit@wassimbj.github.io.zip
+
+# Create extensions directory if needed
+mkdir -p ~/.local/share/gnome-shell/extensions
+
+# Extract to extensions folder
+unzip todoit@wassimbj.github.io.zip -d ~/.local/share/gnome-shell/extensions/
+```
+
+#### 3️⃣ Enable Extension
+Open Extensions manager and enable **Todoit**.
+
+Expected file structure:
+```
 todoit@wassimbj.github.io/
 ├── extension.js
 ├── LICENCE
 ├── manager.js
 ├── metadata.json
-├── schemas
+├── schemas/
 │   ├── gschemas.compiled
 │   └── org.gnome.shell.extensions.todoit.gschema.xml
 ├── stylesheet.css
 └── utils.js
 ```
 
-## Credits
-the very first icon is from [flaticon](https://www.flaticon.com)
+## 🛠️ Development
+
+### Building from Source
+```bash
+git clone https://github.com/Irtesaam/todoit-gnome.git
+cd todoit-gnome
+yarn install
+./build.sh
+```
+
+### Contributing
+Contributions are welcome! This fork aims to implement the roadmap features while maintaining code quality and GNOME design principles.
+
+## 🙏 Credits & Acknowledgments
+
+- **Original Extension**: [wassimbj/todoit-gnome](https://github.com/wassimbj/todoit-gnome)
+- **Icons**: [Flaticon](https://www.flaticon.com)
+- **Enhanced by**: [Irtesaam](https://github.com/Irtesaam)
+
+## 📄 License
+
+This project maintains the same license as the original work.
+
+---
+
+<p align="center">
+  <em>Made with ❤️ for the GNOME community</em>
+</p>
