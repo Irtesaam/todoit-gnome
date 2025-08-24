@@ -1,6 +1,6 @@
 #!/bin/bash
 
-zip_name="todoit@wassimbj.github.io"
+zip_name="todoit-fork@irtesaam.github.io"
 
 # the container of the final running build
 echo "######## Create build dir ########"
@@ -29,4 +29,3 @@ zip ../$zip_name.zip  -x *.git -r .
 
 echo "######## Final result ########"
 tree .
-

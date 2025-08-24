@@ -60,7 +60,7 @@ sudo apt install gnome-shell-extensions
 #### 2️⃣ Download & Extract
 ```bash
 # Download the latest version from this fork
-wget https://github.com/Irtesaam/todoit-gnome/raw/master/todoit@wassimbj.github.io.zip
+wget https://github.com/Irtesaam/todoit-gnome/raw/master/todoit-fork@irtesaam.github.io
 
 # Create extensions directory if needed
 mkdir -p ~/.local/share/gnome-shell/extensions

@@ -4,5 +4,5 @@
   "uuid": "todoit-fork@irtesaam.github.io",
   "shell-version": ["45", "46", "47", "48"],
   "url": "https://github.com/Irtesaam/todoit-gnome",
-  "settings-schema": "org.gnome.shell.extensions.todoit"
+  "settings-schema": "org.gnome.shell.extensions.todoit-fork"
 }
