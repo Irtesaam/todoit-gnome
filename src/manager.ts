@@ -32,7 +32,23 @@ export class TodoListManager {
 
   add(task: string) {
     const todos = this.get();
-    todos.push(JSON.stringify({ name: task, isDone: false }));
+    const newTask = JSON.stringify({ name: task, isDone: false });
+
+    // Check if there's a focused task at index 0
+    if (todos.length > 0) {
+      const firstTask: Task = JSON.parse(todos[0]);
+      if (firstTask.isFocused) {
+        // Insert at position 1 (after the focused task)
+        todos.splice(1, 0, newTask);
+      } else {
+        // Insert at position 0 (at the top)
+        todos.unshift(newTask);
+      }
+    } else {
+      // If no tasks exist, just add it
+      todos.push(newTask);
+    }
+
     this.GSettings.set_strv(TODOS, todos);
   }
 

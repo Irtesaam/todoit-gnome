@@ -1,96 +1,266 @@
 .remove-icon {
-  color: red;
+    color: red;
 }
 
 .remove-btn {
-  padding: 10px;
-  border-radius: 50px;
-  width: 0;
+    padding: 10px;
+    border-radius: 50px;
+    width: 0;
 }
 
 .remove-btn:hover {
-  background: rgba(255, 20, 20, 0.3);
+    background: rgba(255, 20, 20, 0.3);
 }
 
 .remove-btn:active {
-  background: rgba(255, 20, 20, 0.5);
+    background: rgba(255, 20, 20, 0.5);
 }
 
-.btn-icon {
-  width: 15px;
-  height: 15px;
+.selectMultiple-btn {
+    padding: 10px;
+    border-radius: 50px;
+    width: 0;
+}
+
+.selectMultiple-btn:hover {
+    background: rgba(255, 20, 20, 0.3);
+}
+
+.selectMultiple-btn:active {
+    background: rgba(255, 20, 20, 0.5);
 }
 
 .copy-btn {
-  padding: 10px;
-  border-radius: 50px;
-  width: 0;
+    padding: 10px;
+    border-radius: 50px;
+    width: 0;
 }
 
 .copy-btn:hover {
-  background: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.3);
 }
 
 .copy-btn:active {
-  background: rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.rename-btn {
+    padding: 10px;
+    border-radius: 50px;
+    width: 0;
+}
+
+.rename-btn:hover {
+    background: rgba(100, 149, 237, 0.3);
+}
+
+.rename-btn:active {
+    background: rgba(100, 149, 237, 0.5);
 }
 
 .item {
-  padding: 10px;
-  display: flex;
-  align-items: center;
-  border-radius: 5px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
 }
 
 .focus-btn {
-  padding: 10px;
-  border-radius: 50px;
-  width: 0;
+    padding: 10px;
+    border-radius: 50px;
+    width: 0;
 }
 
 .focus-icon {
-  color: #ff652d;
+    color: #ff652d;
 }
 
 .focus-btn:hover {
-  background-color: rgba(255, 69, 0, 0.3);
+    background-color: rgba(255, 69, 0, 0.3);
 }
 
 .item:hover {
-  background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.1);
 }
 
 .item:hover .copy-btn,
+.item:hover .rename-btn,
 .item:hover .remove-btn {
-  width: auto;
+    width: auto;
 }
 
 .item:hover .focus-btn {
-  width: 15px;
-  height: 15px;
+    width: 15px;
+    height: 15px;
 }
 
 .task-label {
-  padding: 10px;
+    padding: 10px;
 }
 
 .toggle-completion-btn {
-  border-radius: 7px;
-  width: 20px;
-  height: 20px;
-  border: 2px solid #ccc;
+    border-radius: 50px;
+    width: 22px;
+    height: 22px;
+    min-width: 22px;
+    min-height: 22px;
+    border: 1px solid #ccc;
+    padding: 0;
 }
+
 .toggle-completion-btn:hover {
-  background-color: #4c4c4c;
+    background-color: #4c4c4c;
 }
+
 .toggle-completion-btn:active {
-  background-color: #06742e;
+    background-color: #06742e;
 }
 
 .input {
-  height: 35px;
+    height: 35px;
 }
 
 .focused-task {
-  background-color: rgba(255, 69, 0, 0.2);
+    background-color: rgba(255, 69, 0, 0.2);
+}
+
+.task-entry {
+    height: 30px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Right-aligned action buttons container */
+.action-buttons-container {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    /* This is the key property that pushes it to the right */
+    padding-left: 10px;
+    /* Adds space between text and buttons */
+    gap: 5px;
+}
+
+.todo-item-layout {
+    justify-content: space-between;
+    align-items: center;
+    display: flex;
+    width: 100%;
+}
+
+.task-label-container {
+    flex-grow: 1;
+    /* Allows this container to expand and fill available space */
+    flex-shrink: 1;
+    /* Allows this container to shrink if needed */
+    min-width: 0;
+    /* Prevents overflow issues with long text */
+    display: flex;
+    align-items: center;
+}
+
+.task-label {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.task-label:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+}
+
+.selection-checkbox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    min-width: 22px;
+    min-height: 22px;
+    padding: 0;
+    border-radius: 50px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid #ccc;
+    margin-right: 15px;
+}
+
+.selection-checkbox:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.selection-checkbox .btn-icon {
+    color: #4a90e2;
+    width: 12px;
+    height: 12px;
+}
+
+.btn-icon {
+    width: 15px;
+    height: 15px;
+}
+
+.select-mode-btn {
+    padding: 8px;
+    border-radius: 50%;
+    width: auto;
+    min-width: 30px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid #ccc;
+    margin-left: 5px;
+}
+
+.select-mode-btn:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.bulk-action-toolbar {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 5px;
+    margin: 5px 0;
+    justify-content: center;
+}
+
+.confirmation-item {
+    background-color: rgba(229, 62, 62, 0.1);
+    border: 1px solid rgba(229, 62, 62, 0.3);
+    border-radius: 8px;
+    margin: 2px 0;
+}
+
+.confirmation-container {
+    padding: 8px 12px;
+}
+
+.confirmation-item:hover {
+    background-color: rgba(229, 62, 62, 0.15);
+}
+
+.input-area-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 35px;
+    height: 35px;
+    min-width: 35px;
+    min-height: 35px;
+    border-radius: 50%;
+    padding: 0;
+}
+
+/* Confirmation dialog button styles */
+.confirmation-container .focus-btn,
+.confirmation-container .remove-btn {
+    width: 30px !important;
+    height: 30px !important;
+    min-width: 30px;
+    min-height: 30px;
+    padding: 2px;
+    border-radius: 50px !important;
+}
+
+.confirmation-container .focus-btn .btn-icon,
+.confirmation-container .remove-btn .btn-icon {
+    color: rgba(255, 255, 255, 0.5);
 }
