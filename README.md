@@ -1,4 +1,4 @@
-<h1 align="center"> 🚀 Todoit Gnome Extension - Enhanced Fork </h1>
+<h1 align="center"> 🚀 TodoZen GNOME Extension </h1>
 
 ## 🎯 About This Fork
 
@@ -35,7 +35,7 @@ This is an enhanced fork of the original [Todoit GNOME Extension](https://github
 
 ## 🖥️ System Requirements
 
-Todoit uses modern GNOME APIs with ESM module support.
+TodoZen uses modern GNOME APIs with ESM module support.
 **Compatible with GNOME Shell 45+** 🐧
 
 ## 📦 Installation
@@ -60,28 +60,28 @@ sudo apt install gnome-shell-extensions
 #### 2️⃣ Download & Extract
 ```bash
 # Download the latest version from this fork
-wget https://github.com/Irtesaam/todoit-gnome/raw/master/todoit-fork@irtesaam.github.io
+wget https://github.com/Irtesaam/todozen/raw/master/todozen@irtesaam.github.io
 
 # Create extensions directory if needed
 mkdir -p ~/.local/share/gnome-shell/extensions
 
 # Extract to extensions folder
-unzip todoit@wassimbj.github.io.zip -d ~/.local/share/gnome-shell/extensions/
+unzip todozen@irtesaam.github.io.zip -d ~/.local/share/gnome-shell/extensions/
 ```
 
 #### 3️⃣ Enable Extension
-Open Extensions manager and enable **Todoit**.
+Open Extensions manager and enable **TodoZen**.
 
 Expected file structure:
 ```
-todoit@wassimbj.github.io/
+todozen@irtesaam.github.io/
 ├── extension.js
 ├── LICENCE
 ├── manager.js
 ├── metadata.json
 ├── schemas/
 │   ├── gschemas.compiled
-│   └── org.gnome.shell.extensions.todoit.gschema.xml
+│   └── org.gnome.shell.extensions.todozen.gschema.xml
 ├── stylesheet.css
 └── utils.js
 ```
@@ -90,8 +90,8 @@ todoit@wassimbj.github.io/
 
 ### Building from Source
 ```bash
-git clone https://github.com/Irtesaam/todoit-gnome.git
-cd todoit-gnome
+git clone https://github.com/Irtesaam/todozen.git
+cd todozen
 yarn install
 ./build.sh
 ```

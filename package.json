@@ -1,11 +1,11 @@
 {
-  "name": "todoit",
-  "version": "0.1.0",
-  "description": "A simple gnome todo list extension",
+  "name": "todozen",
+  "version": "1.0.0",
+  "description": "A simple GNOME todo list extension (forked and enhanced as TodoZen)",
   "main": "extension.js",
-  "repository": "git@github.com:wassimbj/todoit-gnome.git",
+  "repository": "git@github.com:Irtesaam/todozen.git",
   "type": "module",
-  "author": "wassimbj <wassimbenjdida@gmail.com>",
+  "author": "Irtesaam <atfimdirtesaam@gmail.com>",
   "license": "MIT",
   "scripts": {
     "build": "tsc"

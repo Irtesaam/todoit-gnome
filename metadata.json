@@ -1,8 +1,9 @@
 {
-  "name": "Todoit - Enhanced",
-  "description": "Enhanced todo list extension with improved UX, in-place editing, and better task management",
-  "uuid": "todoit-fork@irtesaam.github.io",
+  "name": "TodoZen",
+  "description": "Fork of 'todoit-gnome' by Wassim Ben Jdida (@wassimbj) — enhanced with task renaming, confirm deletion prompt and improved UX (v1.0.0)",
+  "uuid": "todozen@irtesaam.github.io",
   "shell-version": ["45", "46", "47", "48"],
-  "url": "https://github.com/Irtesaam/todoit-gnome",
-  "settings-schema": "org.gnome.shell.extensions.todoit-fork"
+  "url": "https://github.com/Irtesaam/todozen",
+  "settings-schema": "org.gnome.shell.extensions.todozen",
+  "version": 1
 }

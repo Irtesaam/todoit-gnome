@@ -1,31 +1,54 @@
 #!/bin/bash
+set -e  # Exit immediately if any command fails
 
-zip_name="todoit-fork@irtesaam.github.io"
+# -----------------------------
+# Configuration
+# -----------------------------
+EXTENSION_NAME="TodoZen"
+UUID="todozen@irtesaam.github.io"
+BUILD_DIR="build"
+SRC_DIR="$(pwd)"
 
-# the container of the final running build
-echo "######## Create build dir ########"
-mkdir build
+# -----------------------------
+# Cleanup previous build
+# -----------------------------
+echo "######## Cleaning previous build ########"
+rm -rf "$BUILD_DIR"
+mkdir -p "$BUILD_DIR"
 
-# to generate the *.js files required to run the extension
-echo "######## Build ts ########"
+# -----------------------------
+# Build TypeScript
+# -----------------------------
+echo "######## Building TypeScript ########"
 yarn build
 
-# build the schema
-echo "######## Build schema ########"
+# -----------------------------
+# Compile schemas
+# -----------------------------
+echo "######## Compiling GSettings schemas ########"
 make schemas
 
-# copy the required files
-echo "######## Copy required files ########"
-cp -r schemas build
-cp *.js build
-cp stylesheet.css build
-cp metadata.json build
-cp LICENCE build
+# -----------------------------
+# Copy required files
+# -----------------------------
+echo "######## Copying files to build directory ########"
+cp -r schemas "$BUILD_DIR"
+cp *.js "$BUILD_DIR"
+cp stylesheet.css "$BUILD_DIR"
+cp metadata.json "$BUILD_DIR"
+cp LICENCE "$BUILD_DIR"
 
-echo "######## Zip ########"
-cd build
-zip ../$zip_name.zip  -x *.git -r .
+# -----------------------------
+# Zip the extension
+# -----------------------------
+echo "######## Creating ZIP ########"
+cd "$BUILD_DIR"
+zip -r "../$UUID.zip" . -x "*.git*" "*.DS_Store"  # Exclude unnecessary files
 
-
-echo "######## Final result ########"
-tree .
+# -----------------------------
+# Done
+# -----------------------------
+cd "$SRC_DIR"
+echo "######## Build complete ########"
+tree "$BUILD_DIR"
+echo "ZIP file created: $UUID.zip"

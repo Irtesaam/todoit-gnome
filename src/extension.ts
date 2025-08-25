@@ -29,6 +29,8 @@ export default class TodoListExtension extends Extension {
     button!: PanelMenu.Button | null;
     clearAllBtn?: St.Button | null;
     _activeConfirmation?: PopupMenu.PopupMenuItem | null;
+    _activeConfirmationTimeoutId?: number | null;
+    _confirmationTimeoutId: number | null = null;
 
     enable() {
         this.button = new PanelMenu.Button(0.0, this.metadata.name, false);
@@ -90,7 +92,7 @@ export default class TodoListExtension extends Extension {
         });
         this.input.clutterText.set_max_length(MAX_INPUT_CHARS);
 
-                // Clear all button
+        // Clear all button
         this.clearAllBtn = new St.Button({
             child: new St.Icon({
                 icon_name: "edit-delete-symbolic",
@@ -393,7 +395,7 @@ export default class TodoListExtension extends Extension {
 
     _toggleShortcut() {
         Main.wm.addKeybinding(
-            "open-todoit",
+            "open-todozen",
             this.getSettings(),
             Meta.KeyBindingFlags.NONE,
             Shell.ActionMode.ALL,
@@ -521,13 +523,21 @@ export default class TodoListExtension extends Extension {
         // Scroll to top to make the confirmation visible
         this.scrollView?.get_vscroll_bar()?.get_adjustment()?.set_value(0);
 
-        // Auto-remove after 8 seconds
-        GLib.timeout_add(GLib.PRIORITY_DEFAULT, 8000, () => {
+        // Clear previous timeout if any
+        if (this._confirmationTimeoutId) {
+            GLib.source_remove(this._confirmationTimeoutId);
+            this._confirmationTimeoutId = null;
+        }
+
+        // Set new timeout
+        this._confirmationTimeoutId = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 8000, () => {
             if (this._activeConfirmation === confirmItem) {
                 removeConfirmation();
             }
+            this._confirmationTimeoutId = null;
             return GLib.SOURCE_REMOVE;
         });
+
     }
 
     _clearAllTasks() {
@@ -631,27 +641,70 @@ export default class TodoListExtension extends Extension {
         // Add to todos box at the position right after the item being deleted
         this.todosBox!.insert_child_at_index(confirmItem, itemIndex + 1);
 
-        // Auto-remove after 8 seconds
-        GLib.timeout_add(GLib.PRIORITY_DEFAULT, 8000, () => {
+        // Clear previous timeout if any
+        if (this._confirmationTimeoutId) {
+            GLib.source_remove(this._confirmationTimeoutId);
+            this._confirmationTimeoutId = null;
+        }
+
+        // Set new timeout
+        this._confirmationTimeoutId = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 8000, () => {
             if (this._activeConfirmation === confirmItem) {
                 removeConfirmation();
             }
+            this._confirmationTimeoutId = null;
             return GLib.SOURCE_REMOVE;
         });
+
     }
 
     disable() {
-        this._indicator?.destroy();
-        this.mainBox?.destroy();
-        this.todosBox?.destroy();
-        this.scrollView?.destroy();
-        this.buttonText?.destroy();
-        this.input?.destroy();
-        this.button?.destroy();
-        this.clearAllBtn?.destroy();
+        // Remove keybinding
+        Main.wm.removeKeybinding("open-todozen");
 
-        Main.wm.removeKeybinding("open-todoit");
+        // Remove active confirmation safely
+        if (this._activeConfirmationTimeoutId) {
+            GLib.source_remove(this._activeConfirmationTimeoutId);
+            this._activeConfirmationTimeoutId = null;
+        }
 
+        if (this._activeConfirmation) {
+            try {
+                this.todosBox?.remove_child(this._activeConfirmation);
+            } catch {
+            }
+            this._activeConfirmation = null;
+        }
+
+        // Destroy UI objects safely
+        const widgets = [
+            this.mainBox,
+            this.todosBox,
+            this.scrollView,
+            this.buttonText,
+            this.input,
+            this.button,
+            this.clearAllBtn,
+            this._indicator
+        ];
+
+        let failedDestroy = false;
+
+        for (const widget of widgets) {
+            if (widget) {
+                try {
+                    widget.destroy();
+                } catch {
+                    failedDestroy = true;
+                }
+            }
+        }
+
+        if (failedDestroy) {
+            log('Warning: some widgets failed to destroy in disable()');
+        }
+
+        // Clear references
         this.mainBox = null;
         this.todosBox = null;
         this.scrollView = null;
@@ -662,4 +715,5 @@ export default class TodoListExtension extends Extension {
         this._indicator = null;
         this._activeConfirmation = null;
     }
+
 }
