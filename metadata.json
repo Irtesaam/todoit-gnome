@@ -1,9 +1,9 @@
 {
   "name": "TodoZen",
-  "description": "Fork of 'todoit-gnome' by Wassim Ben Jdida (@wassimbj) — enhanced with task renaming, confirm deletion prompt and improved UX (v2.0.0)",
+  "description": "Fork of 'todoit-gnome' by Wassim Ben Jdida (@wassimbj) — enhanced with task renaming, confirm deletion prompt and improved UX (v3.0.0)",
   "uuid": "todozen@irtesaam.github.io",
   "shell-version": ["45", "46", "47", "48"],
   "url": "https://github.com/Irtesaam/todozen",
   "settings-schema": "org.gnome.shell.extensions.todozen",
-  "version": 2
+  "version": 3
 }

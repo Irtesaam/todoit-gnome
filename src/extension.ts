@@ -430,16 +430,16 @@ export default class TodoListExtension extends Extension {
         label.visible = true;
     }
 
-    _showClearAllConfirmation() {
+    _createConfirmationDialog(
+        message: string,
+        onConfirm: () => void,
+        insertIndex: number = 0,
+        scrollToTop: boolean = false
+    ) {
         // Remove any existing confirmation first
         if (this._activeConfirmation) {
             this.todosBox!.remove_child(this._activeConfirmation);
             this._activeConfirmation = null;
-        }
-
-        const allTodos = this._manager?.get() || [];
-        if (allTodos.length === 0) {
-            return; // Nothing to clear
         }
 
         // Create main confirmation item
@@ -461,7 +461,7 @@ export default class TodoListExtension extends Extension {
         });
 
         const confirmLabel = new St.Label({
-            text: "Clear all tasks?",
+            text: message,
             style: "font-weight: bold;",
             y_align: Clutter.ActorAlign.CENTER,
         });
@@ -475,7 +475,7 @@ export default class TodoListExtension extends Extension {
             y_align: Clutter.ActorAlign.CENTER,
         });
 
-        const clearBtn = new St.Button({
+        const confirmBtn = new St.Button({
             child: new St.Icon({
                 icon_name: "edit-delete-symbolic",
                 style_class: "btn-icon",
@@ -496,7 +496,7 @@ export default class TodoListExtension extends Extension {
             style: "spacing: 4px;",
         });
         buttonContainer.add_child(cancelBtn);
-        buttonContainer.add_child(clearBtn);
+        buttonContainer.add_child(confirmBtn);
 
         const removeConfirmation = () => {
             if (this._activeConfirmation) {
@@ -507,9 +507,9 @@ export default class TodoListExtension extends Extension {
 
         cancelBtn.connect("clicked", removeConfirmation);
 
-        clearBtn.connect("clicked", () => {
+        confirmBtn.connect("clicked", () => {
             removeConfirmation();
-            this._clearAllTasks();
+            onConfirm();
         });
 
         confirmBox.add_child(warningIcon);
@@ -518,10 +518,12 @@ export default class TodoListExtension extends Extension {
         confirmBox.add_child(buttonContainer);
         confirmItem.add_child(confirmBox);
 
-        this.todosBox!.insert_child_at_index(confirmItem, 0);
+        this.todosBox!.insert_child_at_index(confirmItem, insertIndex);
 
-        // Scroll to top to make the confirmation visible
-        this.scrollView?.get_vscroll_bar()?.get_adjustment()?.set_value(0);
+        if (scrollToTop) {
+            // Scroll to top to make the confirmation visible
+            this.scrollView?.get_vscroll_bar()?.get_adjustment()?.set_value(0);
+        }
 
         // Clear previous timeout if any
         if (this._confirmationTimeoutId) {
@@ -537,7 +539,20 @@ export default class TodoListExtension extends Extension {
             this._confirmationTimeoutId = null;
             return GLib.SOURCE_REMOVE;
         });
+    }
 
+    _showClearAllConfirmation() {
+        const allTodos = this._manager?.get() || [];
+        if (allTodos.length === 0) {
+            return; // Nothing to clear
+        }
+
+        this._createConfirmationDialog(
+            "Clear all tasks?",
+            () => this._clearAllTasks(),
+            0,
+            true
+        );
     }
 
     _clearAllTasks() {
@@ -551,111 +566,15 @@ export default class TodoListExtension extends Extension {
     }
 
     _showDeleteConfirmation(taskName: string, itemIndex: number, onConfirm: () => void) {
-        // Remove any existing confirmation first
-        if (this._activeConfirmation) {
-            this.todosBox!.remove_child(this._activeConfirmation);
-            this._activeConfirmation = null;
-        }
-
         // Create a beautiful modal-like confirmation
         const truncatedName = taskName.length > 40 ? taskName.substring(0, 40) + "..." : taskName;
 
-        // Create main confirmation item
-        const confirmItem = new PopupMenu.PopupMenuItem("");
-        confirmItem.style_class = "item confirmation-item";
-        this._activeConfirmation = confirmItem;
-
-        // Create confirmation container - single horizontal line
-        const confirmBox = new St.BoxLayout({
-            vertical: false,
-            style_class: "confirmation-container",
-            style: "padding: 8px 12px; spacing: 8px; align-items: center;",
-        });
-
-        const warningIcon = new St.Icon({
-            icon_name: "dialog-warning-symbolic",
-            style_class: "btn-icon",
-            style: "color: #e53e3e; margin-right: 8px;",
-        });
-
-        const confirmText = new St.Label({
-            text: `Delete "${truncatedName}"?`,
-            style: "font-weight: bold;",
-            y_align: Clutter.ActorAlign.CENTER,
-        });
-
-        // Cancel button (styled like focus button)
-        const cancelBtn = new St.Button({
-            child: new St.Icon({
-                icon_name: "window-close-symbolic",
-                style_class: "btn-icon",
-            }),
-            style_class: "focus-btn",
-            y_align: Clutter.ActorAlign.CENTER,
-        });
-
-        // Delete button (styled like remove button)
-        const deleteBtn = new St.Button({
-            child: new St.Icon({
-                icon_name: "edit-delete-symbolic",
-                style_class: "btn-icon",
-            }),
-            style_class: "remove-btn",
-            y_align: Clutter.ActorAlign.CENTER,
-        });
-
-        // Spacer to push buttons to the right
-        const spacer = new St.Widget({
-            style: "min-width: 0px;",
-            x_expand: true,
-        });
-
-        // Button container
-        const buttonContainer = new St.BoxLayout({
-            vertical: false,
-            style: "spacing: 4px;",
-        });
-        buttonContainer.add_child(cancelBtn);
-        buttonContainer.add_child(deleteBtn);
-
-        const removeConfirmation = () => {
-            if (this._activeConfirmation) {
-                this.todosBox!.remove_child(this._activeConfirmation);
-                this._activeConfirmation = null;
-            }
-        };
-
-        cancelBtn.connect("clicked", removeConfirmation);
-
-        deleteBtn.connect("clicked", () => {
-            removeConfirmation();
-            onConfirm();
-        });
-
-        confirmBox.add_child(warningIcon);
-        confirmBox.add_child(confirmText);
-        confirmBox.add_child(spacer);
-        confirmBox.add_child(buttonContainer);
-        confirmItem.add_child(confirmBox);
-
-        // Add to todos box at the position right after the item being deleted
-        this.todosBox!.insert_child_at_index(confirmItem, itemIndex + 1);
-
-        // Clear previous timeout if any
-        if (this._confirmationTimeoutId) {
-            GLib.source_remove(this._confirmationTimeoutId);
-            this._confirmationTimeoutId = null;
-        }
-
-        // Set new timeout
-        this._confirmationTimeoutId = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 8000, () => {
-            if (this._activeConfirmation === confirmItem) {
-                removeConfirmation();
-            }
-            this._confirmationTimeoutId = null;
-            return GLib.SOURCE_REMOVE;
-        });
-
+        this._createConfirmationDialog(
+            `Delete "${truncatedName}"?`,
+            onConfirm,
+            itemIndex + 1,
+            false
+        );
     }
 
     disable() {
