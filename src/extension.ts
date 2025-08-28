@@ -662,10 +662,15 @@ export default class TodoListExtension extends Extension {
         // Remove keybinding
         Main.wm.removeKeybinding("open-todozen");
 
-        // Remove active confirmation safely
+        // Remove all timeouts safely
         if (this._activeConfirmationTimeoutId) {
             GLib.source_remove(this._activeConfirmationTimeoutId);
             this._activeConfirmationTimeoutId = null;
+        }
+
+        if (this._confirmationTimeoutId) {
+            GLib.source_remove(this._confirmationTimeoutId);
+            this._confirmationTimeoutId = null;
         }
 
         if (this._activeConfirmation) {
@@ -701,7 +706,7 @@ export default class TodoListExtension extends Extension {
         }
 
         if (failedDestroy) {
-            log('Warning: some widgets failed to destroy in disable()');
+            console.warn('Warning: some widgets failed to destroy in disable()');
         }
 
         // Clear references
