@@ -41,8 +41,7 @@ TodoZen uses modern GNOME APIs with ESM module support.
 ## 📦 Installation
 
 ### 🏪 **Official Store (Recommended)**
-Available on GNOME Extensions: Not yet !
-<!--Available on GNOME Extensions: [Will publish soon](https://extensions.gnome.org/extension/7538)-->
+Available on GNOME Extensions: [Click Here](https://extensions.gnome.org/extension/8564/todozen/)
 
 ### 🔧 **Manual Installation**
 
